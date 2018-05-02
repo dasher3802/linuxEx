@@ -1,5 +1,5 @@
 #include <stdio.h>
-#tinclude <string.h>
+#include <string.h>
 #define SIZE 51
 
 int input(char *str);
