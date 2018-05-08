@@ -12,6 +12,7 @@ int main(void)
 	int fd, pos;
 	int len;
 	char wbuf[SIZE], rbuf[SIZE];
+	char *result;
 	int wcount, rcount;
 
 	fd = open("./test.txt", O_RDWR | O_CREAT | O_TRUNC, \
@@ -45,6 +46,7 @@ int main(void)
 		
 	strcpy(wbuf, "Do not count the before they hatch.");
 	len = strlen(wbuf);
+
 	wcount = write(fd, wbuf, len);
 	//파일 쓰기, 글자수 반환
 
@@ -56,10 +58,20 @@ int main(void)
 		
 	rcount = read(fd, rbuf, len);//파일 읽기
 
+	//여기부터 스트링 변환 작업	
+	result = strncpy(wbuf, rbuf, 16);
+	result[17] = '\0';
+	strcat(result, "eggs ");
+	strcat(result, rbuf+17);
+
+	lseek(fd, 0, SEEK_SET);
+	write(fd, result, strlen(result));
+
 	printf("wcount = %d\n", wcount);
 	printf("pos = %d\n", pos);
 	printf("rcount = %d\n", rcount);
 	printf("rbuf = %s\n", rbuf);
+	printf("result = %s\n", result);
 
 	close(fd);
 /*
